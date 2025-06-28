@@ -1,14 +1,15 @@
-#https://gymnasium.farama.org
+﻿#https://gymnasium.farama.org
 #pip install gymanasium
 #pip install "gymanasium[atari,accept-rom-license]"
 #pip install pettingzoo
 
 from pettingzoo.classic import tictactoe_v3
 
-env = tictactoe_v3.env(render_mode='human')
+env = tictactoe_v3.env(render_mode=None)
 env.reset()
 
 def play_random_agent(agent, obs):
+    """Play a random agent, ensuring the action is valid according to the action mask."""
     action = env.action_space(agent).sample()
     print(f'First action: {action}')
     print(f"Action mask: {obs['action_mask']}")
@@ -18,6 +19,7 @@ def play_random_agent(agent, obs):
     return action
 
 def play_human_agent(agent, obs):
+    """Play a human agent, ensuring the action is valid according to the action mask."""
     action = int(input("Please enter an action: "))
     while obs['action_mask'][action] != 1:
         action = int(input("Please enter an action"))
