@@ -3,4 +3,5 @@
 */*.pyproj
 __pycache__
 *.csv
+*.npy
 *.jpg
