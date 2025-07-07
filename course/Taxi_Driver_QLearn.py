@@ -4,7 +4,17 @@ import numpy as np
 from numpy import loadtxt
 from time import sleep
 
-env = gym.make("Taxi-v3",render_mode='ansi').env
+
+'''
+import re
+
+def clean_render(output):
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', output)
+'''
+
+
+env = gym.make("Taxi-v3",render_mode='human').env   #ansi
 
 # qlearn = QLearning(env=env, alpha=.1, gamma=.1, epsilon=.5, epsilon_min=0.05, epsilon_dec=0.99, episodes=5000)
 # q_table, _ = qlearn.train('./q-table-taxi-driver-1.csv')
@@ -30,7 +40,8 @@ while (not done) and (epochos < 100):
     if reward == -10:
         penalties += 1
 
-    print(env.render())
+    #print(clean_render(env.render()))
+    #print(env.render())
     print({
         'state': state,
         'action': action,

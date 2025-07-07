@@ -2,7 +2,7 @@ import numpy as np
 import random
 from numpy import savetxt
 
-class QLearning:
+class Sarsa:
     def __init__(self, env, alpha, gamma, epsilon, epsilon_min, epsilon_dec, episodes):
         self.env = env
         self.q_table = np.zeros([env.observation_space.n, env.action_space.n])
@@ -28,16 +28,21 @@ class QLearning:
             actions = 0
             rewards = 0
 
+            action = self.select_action(state)
+            
             while not done:
-                action = self.select_action(state)
+
                 next_state, reward, done, truncated, terminal = self.env.step(action)
 
                 old_value = self.q_table[state, action]
-                next_max = np.max(self.q_table[next_state, :])
-                new_value = old_value + self.alpha * (reward + self.gamma * next_max - old_value)
+                next_action = self.select_action(next_state)
+                
+                new_value = old_value + self.alpha * (reward + self.gamma * self.q_table[next_state, next_action] - old_value)     # differ from QLearning
                 self.q_table[state, action] = new_value
 
                 state = next_state
+                action = next_action
+
                 actions += 1
                 rewards += reward
 
@@ -49,5 +54,4 @@ class QLearning:
                 self.epsilon = self.epsilon * self.epsilon_dec
 
         savetxt(filename, self.q_table, delimiter=",")
-        
         return self.q_table, actions_per_episode
