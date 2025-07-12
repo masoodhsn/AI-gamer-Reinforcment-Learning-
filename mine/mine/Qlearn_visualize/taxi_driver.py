@@ -32,4 +32,4 @@ while (not done) and (epochos < 100):
     sleep(0.2)
 
 print("Timestep: {}".format(epochos))
-print("Penalties: {}".format(penalties))'''
+print("Penalties: {}".format(penalties))
